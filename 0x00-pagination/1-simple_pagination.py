@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-""" Pagination """
+
+'''
+Simple pagination
+'''
+
 
 import csv
 import math
@@ -26,8 +30,22 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        pass
+        '''
+        Return list of baby names or assert error
+        '''
+        if not isinstance(page, int) or not isinstance(page_size, int):
+            raise AssertionError
+        if page <= 0 or page_size <= 0:
+            raise AssertionError
+        pagination_indexes = index_range(page=page, page_size=page_size)
+        self.dataset()
+        return self.__dataset[pagination_indexes[0]: pagination_indexes[1]]
 
-    def index_range(page: int, page_size: int) -> Tuple[int, int]:
-        """ returns tuple of size two containing start index, end index """
-        pass
+
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """
+    Return a tuple of size two containing a start index and an end
+    index corresponding to the range of indexes to return in a list
+    for those particular pagination parameters.
+    """
+    return ((page - 1) * page_size, page * page_size)
